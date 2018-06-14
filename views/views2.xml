@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+       <record id="view_raw_mat_so_wizard" model="ir.ui.view">
+      <field name="name">view_raw_mat_so</field>
+      <field name="model">dhb_mrp.salesorder</field>
+      <field name="arch" type="xml">
+
+        <form>
+                <group>
+                    <field name="sales_order_id" style="width:50%%" options="{'no_create':True}" disable_linking="True"/>
+                    <field name="cust_ref" style="width:50%%" readonly="1"/>
+                </group>
+
+                <field name="dhb_final_prod_ids" readonly="1">
+                    <tree>
+                        <field name="product_name" />
+                        <field name="qty_to_consume" style="text-align:right;"/>
+                    </tree>
+                </field>
+
+
+
+
+                <field name="dhb_raw_material_ids" readonly="1">
+                    <tree>
+                        <field name="product_name" />
+                        <field name="qty_to_consume" style="text-align:right;"/>
+                        <field name="qty_reserved" style="text-align:right;"/>
+                        <field name="qty_consumed" style="text-align:right;"/>
+                    </tree>
+                </field>
+
+            <footer>
+                <button type="object" name="do_calculation"
+                    string="Calcular Materiales" class="oe_highlight"
+                   />
+                <button type="action" name="%(action_print_dhb_sales_order_report)d"
+                    string="Imprimir Lista Material por Sales Order" class="oe_highlight"
+                   />
+                <button special="cancel" string="Cancel"/>
+            </footer>
+        </form>
+
+      </field>
+    </record>
+
+        <act_window id="dhb_action_todo_wizard"
+        name="Raw Materials for SO"
+        src_model="sale.order"
+        res_model="dhb_mrp.salesorder"
+        view_mode="form"
+        target="new"
+        />
+
+
+
+
+      <menuitem id="menu_sales_order_bom_report" name="Reporte LdM por Pedido de Venta"
+            parent="mrp.menu_mrp_reporting" sequence="30" action="dhb_action_todo_wizard" groups="base.group_system"/>
+
+</data>
+</odoo>

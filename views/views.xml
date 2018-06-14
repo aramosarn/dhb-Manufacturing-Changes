@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="dhb_mrp.list">
+      <field name="name">dhb_mrp list</field>
+      <field name="model">dhb_mrp.dhb_mrp</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="dhb_mrp.action_window">
+      <field name="name">dhb_mrp window</field>
+      <field name="res_model">dhb_mrp.dhb_mrp</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="dhb_mrp.action_server">
+      <field name="name">dhb_mrp server</field>
+      <field name="model_id" ref="model_dhb_mrp_dhb_mrp"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="dhb_mrp" id="dhb_mrp.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="dhb_mrp.menu_1" parent="dhb_mrp.menu_root"/>
+    <menuitem name="Menu 2" id="dhb_mrp.menu_2" parent="dhb_mrp.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="dhb_mrp.menu_1_list" parent="dhb_mrp.menu_1"
+              action="dhb_mrp.action_window"/>
+    <menuitem name="Server to list" id="dhb_mrp" parent="dhb_mrp.menu_2"
+              action="dhb_mrp.action_server"/>
+    -->
+
+
+
+        <record id="dhb_mrp_product_product" model="ir.ui.view">
+            <field name="name">Add width length product</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <field name="uom_id" position="before">
+                    <field name="width" />
+                    <field name="length" />
+                </field>
+            </field>
+        </record>
+
+        <record id="dhb_mrp_sales_order" model="ir.ui.view">
+            <field name="name">Add width length sales order</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+
+            <field name="arch" type="xml">
+                <xpath expr="//tree/field[@name='product_uom']" position="before">
+
+                    <field name="product_width" context="{'default_type':'product', 'default_sale_ok': True, 'default_purchase_ok': False}"  />
+                    <field name="product_length" />
+
+                </xpath>
+
+                 <xpath expr="//tree/field[@name='product_id']" position="replace">
+                <field name="product_id" attrs="{'readonly': [('product_updatable', '=', False)]}" force_save="1" context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id, 'default_sale_ok': True, 'default_purchase_ok': False}"/>
+                    </xpath>
+            </field>
+        </record>
+
+
+    <!--
+    <record id="dhb_mrp_product_default" model="ir.actions.act_window">
+        <field name="name">default product</field>
+        <field name="model">product.template</field>
+        <field name="res_model">product.template</field>
+
+        <field name="view_mode">form</field>
+    </record>
+   -->
+
+</data>
+</odoo>
